@@ -14,6 +14,7 @@ sys.setdefaultencoding('utf-8')
 'https://www.itjuzi.com/user/login'
 
 class crawl(object, max_page, username, password):
+
     def __init__(self, max_page, username, password):
         self.max_page = max_page
         self.username = username

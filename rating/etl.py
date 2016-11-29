@@ -7,7 +7,6 @@ import numpy as np
 import sys
 import re
 reload(sys)
-import scipy 
 
 class Preprocessing(object):
 

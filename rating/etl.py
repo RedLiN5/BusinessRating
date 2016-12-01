@@ -16,17 +16,17 @@ class Preprocessing(object):
         self.header = header
         self.index_col = index_col
 
-    def ReadData(self):
+    def read_data(self):
         self.data = pd.read_table(self.file, sep = self.sep, header = self.header,
                              index_col = self.index_col)
 
-    def DropFeatureNA(self, dataframe, MainFeatures):
+    def drop_feature_na(self, dataframe, MainFeatures):
         temp_df = dataframe[MainFeatures]
         na_index = temp_df.isnull().T.any()
         temp_df = temp_df[~na_index]
         return temp_df
 
-    def RegFilter(self, x):
+    def reg_filter(self, x):
         pattern1 = r'.*轮'
         pattern2 = r'IPO.*'
         regexp1 = re.compile(pattern1)
@@ -37,17 +37,17 @@ class Preprocessing(object):
         else:
             return False
 
-    def preprocess(self):
-        self.ReadData()
+    def fit(self):
+        self.read_data()
         df = self.data
 
         if sum(df.isnull().any()) == 0:
             pass
         else:
-            df = self.DropFeatureNA(df, ['Investor', 'Investee', 'FinancingRound'])
+            df = self.drop_feature_na(df, ['Investor', 'Investee', 'FinancingRound'])
 
-        filter_index = np.array(map(self.RegFilter, df['FinancingRound']))
-        df = df[filter_index]
-        return df
+        filter_index = np.array(map(self.reg_filter(), df['FinancingRound']))
+        self.df = df[filter_index]
+
 
 

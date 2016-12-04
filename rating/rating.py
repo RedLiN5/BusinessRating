@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from etl import Preprocessing
 import numpy as np
 import pandas as pd
@@ -20,7 +23,7 @@ class GetScore(Preprocessing):
             investors = df[target_index]
         elif sum(target_index) == 1:
             round, amount = df.ix[target_index, ['FinancingRound', 'Amount']]
-            
+
 
 ###############
 
@@ -28,4 +31,4 @@ pre = Preprocessing('../data/mydata.csv')
 df = pre.fit()
 
 print len(np.unique(df['Investee']))
-print df.columns, df.shape
+for round in np.unique(df['FinancingRound']): print round

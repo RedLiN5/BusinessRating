@@ -10,7 +10,7 @@ class InvestorScore(object):
                             'B轮','Pre-B轮','A+轮','A轮','Pre-A轮','天使轮','种子轮']
 
     def calculator(self, round_in, round_now):
-        
+        pass
 
 
     def get_score(self, investor, investee):

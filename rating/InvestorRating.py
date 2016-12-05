@@ -8,8 +8,8 @@ class InvestorScore(object):
     def __int__(self, investor, df):
         self.df = df
         self.investor = investor
-        self.rounds_sort = ['IPO上市后','IPO上市','F轮-上市前','E轮','D轮','C轮','B+轮',
-                            'B轮','Pre-B轮','A+轮','A轮','Pre-A轮','天使轮','种子轮']
+        # self.rounds_sort = ['IPO上市后','IPO上市','F轮-上市前','E轮','D轮','C轮','B+轮',
+        #                     'B轮','Pre-B轮','A+轮','A轮','Pre-A轮','天使轮','种子轮']
 
     def generate_table(self):
         table = dict(
@@ -38,15 +38,41 @@ class InvestorScore(object):
 
     def calculator(self, round_in, round_now):
         table_dict = self.generate_table()
-
-
+        score = table_dict[round_in, round_now]
+        return score
 
     def get_score(self, investor, investee):
         investee_df = self.df[self.df['Investee'] == investee]
         rounds = investee_df['FinancingRound']
         round_in = investee_df.ix[investee_df['Investor'] == investor, 'FinancingRound']
-
-
+        if 'afterIPO' in rounds:
+            round_now = 'afterIPO'
+        elif 'IPO' in rounds:
+            round_now = 'IPO'
+        elif 'FbeforeIPO' in rounds:
+            round_now = 'FbeforeIPO'
+        elif 'E' in rounds:
+            round_now = 'E'
+        elif 'D' in rounds:
+            round_now = 'D'
+        elif 'C' in rounds:
+            round_now = 'C'
+        elif 'Bplus' in rounds:
+            round_now = 'Bplus'
+        elif 'B' in rounds:
+            round_now = 'B'
+        elif 'preB' in rounds:
+            round_now = 'preB'
+        elif 'Aplus' in rounds:
+            round_now = 'Aplus'
+        elif 'A' in rounds:
+            round_now = 'A'
+        elif 'preA' in rounds:
+            round_now = 'preA'
+        else:
+            round_now = 'Angel'
+        score = self.calculator(round_in=round_in, round_now=round_now)
+        return score
 
     def start(self):
         investor_ind = self.df['Investor'] == self.investor

@@ -12,7 +12,7 @@ class InvestorScore(object):
                             'B轮','Pre-B轮','A+轮','A轮','Pre-A轮','天使轮','种子轮']
 
     def generate_table(self):
-        self.table = dict(
+        table = dict(
             Seed  = dict(Angel=0, preA=.1, A=.2, Aplus=.25, preB=.3, B=.4, Bplus=.45,
                          C=.6, D=.75, E=.85, FbeforeIPO=.95, IPO=1, afterIPO=1),
             Angel = dict(Seed=0, preA=.1, A=.2, Aplus=.25, preB=.3, B=.4, Bplus=.45,
@@ -34,9 +34,11 @@ class InvestorScore(object):
             FbeforeIPO = dict(IPO=.1, afterIPO=.1),
             IPO   = dict(afterIPO=.05)
         )
+        return table
 
     def calculator(self, round_in, round_now):
-        pass
+        table_dict = self.generate_table()
+
 
 
     def get_score(self, investor, investee):

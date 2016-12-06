@@ -37,7 +37,7 @@ class Preprocessing(object):
         else:
             return False
 
-    def replace(self, x):
+    def replace(x):
         x = re.sub(r'轮', '', x)
         if x == r'IPO上市后':
             return 'afterIPO'
@@ -55,7 +55,8 @@ class Preprocessing(object):
             return 'preA'
         elif x == r'天使':
             return 'Angel'
-
+        elif x == r'种子':
+            return 'Seed'
 
     def fit(self):
         self.read_data()

@@ -37,7 +37,7 @@ class Preprocessing(object):
         else:
             return False
 
-    def replace(x):
+    def replace(self, x):
         x = re.sub(r'轮', '', x)
         if x == r'IPO上市后':
             return 'afterIPO'
@@ -57,6 +57,8 @@ class Preprocessing(object):
             return 'Angel'
         elif x == r'种子':
             return 'Seed'
+        else:
+            return x
 
     def fit(self):
         self.read_data()
@@ -68,7 +70,8 @@ class Preprocessing(object):
             df = self.drop_feature_na(df, ['Investor', 'Investee', 'FinancingRound'])
 
         filter_index = np.array(map(self.reg_filter, df['FinancingRound']))
-        self.df = df[filter_index]
+        df = df[filter_index]
+        df['FinancingRound'] = map(self.replace, df['FinancingRound'])
         return self.df
 
 

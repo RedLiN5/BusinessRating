@@ -37,6 +37,26 @@ class Preprocessing(object):
         else:
             return False
 
+    def replace(self, x):
+        x = re.sub(r'轮', '', x)
+        if x == r'IPO上市后':
+            return 'afterIPO'
+        elif x == r'IPO上市':
+            return 'IPO'
+        elif x == r'F-上市前':
+            return 'FbeforeIPO'
+        elif x == 'B+':
+            return 'Bplus'
+        elif x == 'Pre-B':
+            return 'preB'
+        elif x == 'A+':
+            return 'Aplus'
+        elif x == 'Pre-A':
+            return 'preA'
+        elif x == r'天使':
+            return 'Angel'
+
+
     def fit(self):
         self.read_data()
         df = self.data
@@ -46,8 +66,9 @@ class Preprocessing(object):
         else:
             df = self.drop_feature_na(df, ['Investor', 'Investee', 'FinancingRound'])
 
-        filter_index = np.array(map(self.reg_filter(), df['FinancingRound']))
+        filter_index = np.array(map(self.reg_filter, df['FinancingRound']))
         self.df = df[filter_index]
+        return self.df
 
 
 

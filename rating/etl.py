@@ -71,7 +71,8 @@ class Preprocessing(object):
 
         filter_index = np.array(map(self.reg_filter, df['FinancingRound']))
         df = df[filter_index]
-        df['FinancingRound'] = map(self.replace, df['FinancingRound'])
+        df.FinancingRound = map(self.replace, df.FinancingRound.values)
+        self.df = df
         return self.df
 
 

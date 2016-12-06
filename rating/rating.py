@@ -30,5 +30,5 @@ class GetScore(Preprocessing):
 pre = Preprocessing('../data/mydata.csv')
 df = pre.fit()
 
-print len(np.unique(df['Investee']))
+print len(np.unique(df['Investee'])), '\n'
 for round in np.unique(df['FinancingRound']): print round

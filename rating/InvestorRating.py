@@ -77,5 +77,8 @@ class InvestorScore(object):
     def start(self):
         investor_ind = self.df['Investor'] == self.investor
         investees = self.df.ix[investor_ind, 'Investee']
+        n = len(investees)
+        scores = []
         for investee in investees:
-            self.get_score(investor=self.investor, investee=investee)
+            scores += [self.get_score(investor=self.investor, investee=investee)]
+        return sum(scores)/float(n)

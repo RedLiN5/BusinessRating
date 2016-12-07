@@ -2,14 +2,14 @@
 
 import numpy as np
 import pandas as pd
+from etl import Preprocessing
 
-class InvestorScore(object):
+class InvestorScore(Preprocessing):
 
-    def __int__(self, investor, df):
-        self.df = df
+    def __init__(self, investor):
         self.investor = investor
-        # self.rounds_sort = ['IPO上市后','IPO上市','F轮-上市前','E轮','D轮','C轮','B+轮',
-        #                     'B轮','Pre-B轮','A+轮','A轮','Pre-A轮','天使轮','种子轮']
+        super(InvestorScore,self).__init__(file='../data/mydata.csv', sep = ',', header = 0, index_col = 0)
+        self.fit()
 
     def generate_table(self):
         table = dict(
@@ -81,4 +81,4 @@ class InvestorScore(object):
         scores = []
         for investee in investees:
             scores += [self.get_score(investor=self.investor, investee=investee)]
-        return sum(scores)/float(n)
+        # return sum(scores)/float(n)

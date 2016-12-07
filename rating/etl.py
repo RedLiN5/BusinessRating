@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import sys
 import re
+from importlib import reload
 reload(sys)
 
 class Preprocessing(object):
@@ -15,6 +16,7 @@ class Preprocessing(object):
         self.sep = sep
         self.header = header
         self.index_col = index_col
+        self.df = None
 
     def read_data(self):
         self.data = pd.read_table(self.file, sep = self.sep, header = self.header,
@@ -69,11 +71,11 @@ class Preprocessing(object):
         else:
             df = self.drop_feature_na(df, ['Investor', 'Investee', 'FinancingRound'])
 
-        filter_index = np.array(map(self.reg_filter, df['FinancingRound']))
+        filter_index = np.array(list(map(self.reg_filter, df.FinancingRound.values)))
         df = df[filter_index]
         df.FinancingRound = map(self.replace, df.FinancingRound.values)
         self.df = df
-        return self.df
+        # return self.df
 
 
 

@@ -38,13 +38,17 @@ class InvestorScore(Preprocessing):
 
     def calculator(self, round_in, round_now):
         table_dict = self.generate_table()
-        score = table_dict[round_in, round_now]
+        score = table_dict[round_in][round_now]
         return score
 
     def get_score(self, investor, investee):
         investee_df = self.df[self.df['Investee'] == investee]
         rounds = investee_df['FinancingRound']
-        round_in = investee_df.ix[investee_df['Investor'] == investor, 'FinancingRound']
+        invstr_ind = investee_df['Investor'] == investor
+        print(invstr_ind)
+        round_in = investee_df.ix[invstr_ind, 'FinancingRound'].values[0]
+        # Round in is a map object
+        print('round in:', round_in)
         if 'afterIPO' in rounds:
             round_now = 'afterIPO'
         elif 'IPO' in rounds:
@@ -71,16 +75,17 @@ class InvestorScore(Preprocessing):
             round_now = 'preA'
         else:
             round_now = 'Angel'
+
         score = self.calculator(round_in=round_in, round_now=round_now)
         return score
 
     def start(self):
         investor_ind = self.df['Investor'] == self.investor
         print(sum(investor_ind))
-        investees = self.df.iloc[investor_ind, 'Investee']
+        investees = self.df.ix[investor_ind, 'Investee']
         n = len(investees)
         print(investees)
         scores = []
-        for investee in investees:
+        for investee in investees.values:
             scores += [self.get_score(investor=self.investor, investee=investee)]
         # return sum(scores)/float(n)

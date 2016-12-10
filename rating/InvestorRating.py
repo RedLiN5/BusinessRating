@@ -76,8 +76,10 @@ class InvestorScore(Preprocessing):
 
     def start(self):
         investor_ind = self.df['Investor'] == self.investor
-        investees = self.df.ix[investor_ind, 'Investee']
+        print(sum(investor_ind))
+        investees = self.df.iloc[investor_ind, 'Investee']
         n = len(investees)
+        print(investees)
         scores = []
         for investee in investees:
             scores += [self.get_score(investor=self.investor, investee=investee)]

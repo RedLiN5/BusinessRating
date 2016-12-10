@@ -16,4 +16,5 @@ class GetScore(InvestorScore):
         return self.start()
 
 
-test = GetScore(name = r'猎聘网')
+test = GetScore(name = '立元创投')
+test.return_score()

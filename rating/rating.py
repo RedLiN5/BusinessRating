@@ -17,4 +17,4 @@ class GetScore(InvestorScore):
 
 
 test = GetScore(name = '立元创投')
-test.return_score()
+print(test.return_score())

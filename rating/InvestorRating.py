@@ -13,9 +13,9 @@ class InvestorScore(Preprocessing):
 
     def generate_table(self):
         table = dict(
-            Seed  = dict(Angel=0, preA=.1, A=.2, Aplus=.25, preB=.3, B=.4, Bplus=.45,
+            Seed  = dict(Angel=-1, preA=.1, A=.2, Aplus=.25, preB=.3, B=.4, Bplus=.45,
                          C=.6, D=.75, E=.85, FbeforeIPO=.95, IPO=1, afterIPO=1),
-            Angel = dict(Seed=0, preA=.1, A=.2, Aplus=.25, preB=.3, B=.4, Bplus=.45,
+            Angel = dict(Seed=-1, preA=.1, A=.2, Aplus=.25, preB=.3, B=.4, Bplus=.45,
                          C=.6, D=.75, E=.85, FbeforeIPO=.95, IPO=1, afterIPO=1),
             preA  = dict(A=.1, Aplus=.2, preB=.25, B=.3, Bplus=.4, C=.45, D=.6,
                          E=.75, FbeforeIPO=.85, IPO=.95, afterIPO=.95),
@@ -43,12 +43,10 @@ class InvestorScore(Preprocessing):
 
     def get_score(self, investor, investee):
         investee_df = self.df[self.df['Investee'] == investee]
-        rounds = investee_df['FinancingRound']
+        rounds = investee_df['FinancingRound'].values
         invstr_ind = investee_df['Investor'] == investor
-        print(invstr_ind)
         round_in = investee_df.ix[invstr_ind, 'FinancingRound'].values[0]
         # Round in is a map object
-        print('round in:', round_in)
         if 'afterIPO' in rounds:
             round_now = 'afterIPO'
         elif 'IPO' in rounds:
@@ -76,16 +74,27 @@ class InvestorScore(Preprocessing):
         else:
             round_now = 'Angel'
 
-        score = self.calculator(round_in=round_in, round_now=round_now)
+        if round_in == round_now:
+            score = -1
+        else:
+            score = self.calculator(round_in=round_in, round_now=round_now)
         return score
 
     def start(self):
         investor_ind = self.df['Investor'] == self.investor
-        print(sum(investor_ind))
         investees = self.df.ix[investor_ind, 'Investee']
-        n = len(investees)
-        print(investees)
+        n = 0
         scores = []
+
         for investee in investees.values:
-            scores += [self.get_score(investor=self.investor, investee=investee)]
-        # return sum(scores)/float(n)
+            score = self.get_score(investor=self.investor, investee=investee)
+            if score == -1:
+                continue
+            else:
+                n += 1
+                scores += [self.get_score(investor=self.investor, investee=investee)]
+
+        if n ==0:
+            return 'Sorry, cannot calculate score currently.'
+        else:
+            return sum(scores)/float(n)

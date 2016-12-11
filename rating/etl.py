@@ -71,9 +71,10 @@ class Preprocessing(object):
         else:
             df = self.drop_feature_na(df, ['Investor', 'Investee', 'FinancingRound'])
 
-        filter_index = np.array(list(map(self.reg_filter, df.FinancingRound.values)))
+        df = df.reset_index(drop=True)
+        filter_index = np.array(list(map(self.reg_filter, df.FinancingRound)))
         df = df[filter_index]
-        df.FinancingRound = map(self.replace, df.FinancingRound.values)
+        df.FinancingRound = list(map(self.replace, df.FinancingRound))
         self.df = df
         # return self.df
 

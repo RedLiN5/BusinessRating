@@ -6,8 +6,7 @@ from etl import Preprocessing
 
 class InvestorScore(Preprocessing):
 
-    def __init__(self, investor):
-        self.investor = investor
+    def __init__(self):
         super(InvestorScore,self).__init__(file='../data/mydata.csv', sep = ',', header = 0, index_col = 0)
         self.fit()
 
@@ -80,21 +79,21 @@ class InvestorScore(Preprocessing):
             score = self.calculator(round_in=round_in, round_now=round_now)
         return score
 
-    def start(self):
-        investor_ind = self.df['Investor'] == self.investor
+    def investor_score(self, investor):
+        investor_ind = self.df['Investor'] == investor
         investees = self.df.ix[investor_ind, 'Investee']
         n = 0
         scores = []
 
         for investee in investees.values:
-            score = self.get_score(investor=self.investor, investee=investee)
+            score = self.get_score(investor= investor, investee=investee)
             if score == -1:
                 continue
             else:
                 n += 1
-                scores += [self.get_score(investor=self.investor, investee=investee)]
+                scores += [self.get_score(investor= investor, investee=investee)]
 
-        if n ==0:
+        if n == 0:
             return 'Sorry, cannot calculate score currently.'
         else:
             return sum(scores)/float(n)

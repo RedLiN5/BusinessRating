@@ -5,16 +5,18 @@ from InvestorRating import InvestorScore
 from etl import Preprocessing
 import numpy as np
 import pandas as pd
+from InvesteeRating import InvesteeScore
 
 
-class GetScore(InvestorScore):
+class Score(InvesteeScore):
 
     def __init__(self, name):
-        super(GetScore,self).__init__(investor=name)
+        self.name = name
+        super(Score, self).__init__(investee = name)
 
-    def return_score(self):
-        return self.start()
+    def calculate(self):
+        return self.investee_final_score()
 
 
-test = GetScore(name = '立元创投')
-print(test.return_score())
+test = Score(name = '滴滴出行-滴滴快的')
+print(test.calculate())

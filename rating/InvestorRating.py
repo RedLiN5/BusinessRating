@@ -94,6 +94,6 @@ class InvestorScore(Preprocessing):
                 scores += [self.get_score(investor= investor, investee=investee)]
 
         if n == 0:
-            return 'Sorry, cannot calculate score currently.'
+            return -1
         else:
             return sum(scores)/float(n)

@@ -17,6 +17,10 @@ class DataNormalization(InvestorScore):
         df = self.df.copy()
         investors_unique = np.unique(df['Investor'].values)
         scores = list(map(self.investor_score, investors_unique))
-        scores_normal = (scores - np.mean(scores))/(max(scores) - min(scores))
-        investor_score = pd.DataFrame({'Investor': investors_unique, 'Score': scores_normal})
-        return investor_score
+        df_unique = pd.DataFrame({'Investor': investors_unique, 'Score': scores})
+        print(df_unique.shape)
+        df_new = df_unique.loc[df_unique.Score != -1]
+        scores_new = df_new.Score
+        scores_normal = (scores_new - np.mean(scores_new))/(max(scores_new) - min(scores_new))
+        df_new.Score = scores_normal
+        return df_new

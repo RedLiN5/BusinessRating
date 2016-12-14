@@ -2,12 +2,12 @@
 
 import numpy as np
 import pandas as pd
-from etl import Preprocessing
+from rating.etl import Preprocessing
 
 class InvestorScore(Preprocessing):
 
     def __init__(self):
-        super(InvestorScore,self).__init__(file='../data/mydata.csv', sep = ',', header = 0, index_col = 0)
+        super(InvestorScore,self).__init__(file='data/mydata.csv', sep = ',', header = 0, index_col = 0)
         self.fit()
 
     def generate_table(self):

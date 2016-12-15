@@ -1,5 +1,7 @@
-from data.Normalization import DataNormalization
+from rating.InvesteeRating import InvesteeScore
+import time
 
-data = DataNormalization()
-normal_score = data.normal()
-print(normal_score.shape)
+start = time.time()
+data = InvesteeScore(investee='Meta')
+print('Final score:', data.investee_final_score())
+print('Runing time: %s Secs' % round(time.time()-start,2))

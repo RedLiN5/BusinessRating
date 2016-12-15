@@ -30,11 +30,11 @@ class InvesteeScore(DataNormalization):
             try:
                 investor in normal_score.Investor
                 investor_ind = normal_score.Investor == investor
-                score = normal_score.ix[investor_ind, 'Score']
+                score = normal_score.ix[investor_ind, 'Score'].values[0]
                 scores += [score]
                 n += 1
             except:
-                print(investor, 'info cannot currently be obtained.')
+                print('Investor %s info cannot currently be obtained.'% investor)
 
         score_mean = sum(scores)/float(n)
         return score_mean

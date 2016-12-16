@@ -31,8 +31,8 @@ class InvesteeScore(DataNormalization):
                 investor in normal_score.Investor
                 investor_ind = normal_score.Investor == investor
                 score = normal_score.ix[investor_ind, 'Score'].values[0]
-                scores += [score]
-                n += 1
+                scores.append(score)
+                n = n + 1
             except:
                 print('Investor %s info cannot currently be obtained.'% investor)
 

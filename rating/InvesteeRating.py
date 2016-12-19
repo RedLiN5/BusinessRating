@@ -58,5 +58,9 @@ class InvesteeScore(DataNormalization):
             except:
                 print('Investor %s info cannot currently be obtained.'% investor)
 
-        score_mean = sum(scores)/float(n_scores)
-        return score_mean
+        try:
+            score_mean = sum(scores)/float(n_scores)
+            return score_mean
+        except Exception as error:
+            print('Investor %s info cannot currently be obtained, because of %s' % (investor, error))
+            
